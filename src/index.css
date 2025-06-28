@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-drift-slow {
+    animation: drift 20s ease-in-out infinite;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delayed {
+    animation: float 6s ease-in-out infinite 3s;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(0px) translateY(0px); }
+  25% { transform: translateX(20px) translateY(-10px); }
+  50% { transform: translateX(-15px) translateY(15px); }
+  75% { transform: translateX(10px) translateY(-5px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.5);
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition-property: opacity, transform, background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Enhanced glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Text selection styling */
+::selection {
+  background: rgba(168, 85, 247, 0.3);
+  color: white;
+}
+
+/* Focus styles */
+button:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.5);
+  outline-offset: 2px;
+}
