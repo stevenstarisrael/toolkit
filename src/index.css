@@ -85,3 +85,14 @@ textarea:focus-visible {
   outline: 2px solid rgba(168, 85, 247, 0.5);
   outline-offset: 2px;
 }
+
+/* Make date picker icon white */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="date"]::-webkit-input-placeholder { color: #c4b5fd; }
+input[type="date"]::-moz-placeholder { color: #c4b5fd; }
+input[type="date"]:-ms-input-placeholder { color: #c4b5fd; }
+input[type="date"]::placeholder { color: #c4b5fd; }

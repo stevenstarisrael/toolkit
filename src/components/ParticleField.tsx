@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Particle } from '../types';
+
+// Inline Particle type
+interface Particle {
+  id: string;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  speed: number;
+  direction: number;
+  color: string;
+}
 
 const ParticleField: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
