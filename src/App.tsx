@@ -128,7 +128,7 @@ function App() {
                   <Sparkles className="w-6 h-6 text-purple-300" />
                 </Link>
                 <Link to="/" className="text-2xl font-light text-white/90 tracking-wide hover:text-purple-200 transition">
-                  Toolbox
+                  ToolKit
                 </Link>
               </div>
               {/* Mobile burger menu - right edge */}
