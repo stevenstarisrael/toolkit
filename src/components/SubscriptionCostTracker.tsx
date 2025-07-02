@@ -13,7 +13,7 @@ export default function SubscriptionCostTracker() {
       if (stored) {
         try {
           return JSON.parse(stored);
-        } catch {}
+        } catch { }
       }
     }
     return [];
@@ -65,8 +65,7 @@ export default function SubscriptionCostTracker() {
             <ul className="divide-y divide-white/10">
               {subs.map((s, i) => (
                 <li key={i} className="flex items-center justify-between py-2">
-                  <span className="text-white">{s.name}</span>
-                  <span className="text-purple-200">₹{s.amount} / {s.period}</span>
+                  <span className="text-white">{s.name} <span className="text-purple-200 text-xs">(₹{s.amount} / {s.period})</span></span>
                   <button
                     onClick={() => removeSub(i)}
                     className="ml-2 px-2 py-1 rounded bg-white/20 border border-white/20 text-white text-xs shadow hover:bg-gradient-to-br hover:from-purple-500/20 hover:to-teal-500/20 transition focus:outline-none focus:ring-2 focus:ring-purple-400"
