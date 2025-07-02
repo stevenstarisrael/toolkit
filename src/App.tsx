@@ -100,7 +100,7 @@ const TOOL_CATEGORIES = [
   {
     name: 'Speech',
     tools: [
-      { name: 'Speech to Text (Multi-language)', path: '/speech-to-text', tags: ['speech', 'text', 'voice', 'recognition', 'audio', 'language'], emoji: '🎤' },
+      { name: 'Speech to Text (Multi-language)', path: '/speech-to-text', tags: ['speech', 'text', 'voice', 'recognition', 'audio', 'language', 'english', 'hindi', 'telugu', 'marathi', 'spanish', 'french', 'german', 'chinese', 'mandarin', 'japanese', 'russian', 'arabic', 'portuguese', 'brazil', 'italian', 'korean', 'bengali', 'punjabi', 'gujarati', 'urdu'], emoji: '🎤' },
     ],
   },
 ];
