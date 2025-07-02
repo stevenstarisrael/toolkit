@@ -37,6 +37,31 @@ import TimeCounters from './components/TimeCounters';
 
 const TOOL_CATEGORIES = [
   {
+    name: 'Cost & Comparison Tools',
+    tools: [
+      { name: 'Price Comparison Tool', path: '/price-comparison', component: PriceComparisonTool, tags: ['price', 'comparison', 'quantity', 'math'], emoji: '💲' },
+      { name: 'Unit Conversion Cost Calculator', path: '/unit-conversion-cost', component: UnitConversionCostCalculator, tags: ['unit', 'cost', 'conversion', 'grocery', 'math'], emoji: '⚖️' },
+      { name: 'Subscription Cost Tracker', path: '/subscription-cost-tracker', component: SubscriptionCostTracker, tags: ['subscription', 'tracker', 'cost', 'monthly', 'yearly'], emoji: '💸' },
+      { name: 'Fuel Cost Estimator', path: '/fuel-cost-estimator', component: FuelCostEstimator, tags: ['fuel', 'cost', 'estimator', 'travel'], emoji: '⛽' },
+      { name: 'Annual to Monthly Converter', path: '/annual-to-monthly', component: AnnualToMonthlyConverter, tags: ['annual', 'monthly', 'converter', 'salary'], emoji: '📅' },
+      { name: 'Recurring Cost to Daily Impact', path: '/recurring-to-daily', component: RecurringCostToDailyImpact, tags: ['recurring', 'daily', 'cost', 'impact'], emoji: '🔁' },
+      { name: 'Percentage Calculator', path: '/percentage-calculator', component: PercentageCalculator, tags: ['percentage', 'calculator', 'math'], emoji: '📊' },
+    ],
+  },
+  {
+    name: 'Text Conversion',
+    tools: [
+      { name: 'Case Converter', path: '/case-converter', tags: ['case', 'upper', 'lower', 'title', 'sentence', 'camel', 'convert'], emoji: '🔠' },
+      { name: 'Whitespace & Line Break Remover', path: '/whitespace-remover', tags: ['whitespace', 'line break', 'remove', 'text', 'clean'], emoji: '␣' },
+      { name: 'Text <-> Binary', path: '/text-to-binary', tags: ['binary', 'text', 'convert', 'ascii', 'encode', 'decode'], emoji: '💾' },
+      { name: 'Text <-> ASCII', path: '/text-to-ascii', tags: ['ascii', 'text', 'convert', 'binary', 'encode', 'decode'], emoji: '🔡' },
+      { name: 'Text <-> Morse Code', path: '/text-to-morse', tags: ['morse', 'code', 'text', 'convert', 'audio', 'encode', 'decode'], emoji: '•–' },
+      { name: 'Base64 Encode/Decode', path: '/base64', tags: ['base64', 'encode', 'decode', 'text', 'convert'], emoji: '🔐' },
+      { name: 'Text Hasher', path: '/text-hasher', tags: ['hash', 'md5', 'sha1', 'sha256', 'text', 'security'], emoji: '🔑' },
+      { name: 'Text to URL Format', path: '/text-to-url', tags: ['url', 'encode', 'text', 'link', 'whatsapp', 'wa.me'], emoji: '🔗' },
+    ],
+  },
+  {
     name: 'Calculators & Converters',
     tools: [
       { name: 'Age Calculator', path: '/age-calculator', tags: ['age', 'date', 'birthday', 'years', 'calculator', 'dob'], emoji: '🎂' },
@@ -70,31 +95,6 @@ const TOOL_CATEGORIES = [
       { name: 'Duplicate Line Remover', path: '/duplicate-line-remover', tags: ['duplicate', 'line', 'remove', 'text', 'clean'], emoji: '🚮' },
       { name: 'Text Diff Checker', path: '/text-diff', tags: ['diff', 'compare', 'text', 'difference', 'checker'], emoji: '📝' },
       { name: 'Text Sorter', path: '/text-sorter', tags: ['sort', 'text', 'lines', 'order', 'alphabetical'], emoji: '🔀' },
-    ],
-  },
-  {
-    name: 'Text Conversion',
-    tools: [
-      { name: 'Case Converter', path: '/case-converter', tags: ['case', 'upper', 'lower', 'title', 'sentence', 'camel', 'convert'], emoji: '🔠' },
-      { name: 'Whitespace & Line Break Remover', path: '/whitespace-remover', tags: ['whitespace', 'line break', 'remove', 'text', 'clean'], emoji: '␣' },
-      { name: 'Text <-> Binary', path: '/text-to-binary', tags: ['binary', 'text', 'convert', 'ascii', 'encode', 'decode'], emoji: '💾' },
-      { name: 'Text <-> ASCII', path: '/text-to-ascii', tags: ['ascii', 'text', 'convert', 'binary', 'encode', 'decode'], emoji: '🔡' },
-      { name: 'Text <-> Morse Code', path: '/text-to-morse', tags: ['morse', 'code', 'text', 'convert', 'audio', 'encode', 'decode'], emoji: '•–' },
-      { name: 'Base64 Encode/Decode', path: '/base64', tags: ['base64', 'encode', 'decode', 'text', 'convert'], emoji: '🔐' },
-      { name: 'Text Hasher', path: '/text-hasher', tags: ['hash', 'md5', 'sha1', 'sha256', 'text', 'security'], emoji: '🔑' },
-      { name: 'Text to URL Format', path: '/text-to-url', tags: ['url', 'encode', 'text', 'link', 'whatsapp', 'wa.me'], emoji: '🔗' },
-    ],
-  },
-  {
-    name: 'Cost & Comparison Tools',
-    tools: [
-      { name: 'Price Comparison Tool', path: '/price-comparison', component: PriceComparisonTool, tags: ['price', 'comparison', 'quantity', 'math'], emoji: '💲' },
-      { name: 'Unit Conversion Cost Calculator', path: '/unit-conversion-cost', component: UnitConversionCostCalculator, tags: ['unit', 'cost', 'conversion', 'grocery', 'math'], emoji: '⚖️' },
-      { name: 'Subscription Cost Tracker', path: '/subscription-cost-tracker', component: SubscriptionCostTracker, tags: ['subscription', 'tracker', 'cost', 'monthly', 'yearly'], emoji: '💸' },
-      { name: 'Fuel Cost Estimator', path: '/fuel-cost-estimator', component: FuelCostEstimator, tags: ['fuel', 'cost', 'estimator', 'travel'], emoji: '⛽' },
-      { name: 'Annual to Monthly Converter', path: '/annual-to-monthly', component: AnnualToMonthlyConverter, tags: ['annual', 'monthly', 'converter', 'salary'], emoji: '📅' },
-      { name: 'Recurring Cost to Daily Impact', path: '/recurring-to-daily', component: RecurringCostToDailyImpact, tags: ['recurring', 'daily', 'cost', 'impact'], emoji: '🔁' },
-      { name: 'Percentage Calculator', path: '/percentage-calculator', component: PercentageCalculator, tags: ['percentage', 'calculator', 'math'], emoji: '📊' },
     ],
   },
   {

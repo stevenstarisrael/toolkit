@@ -6,13 +6,15 @@ export default function PercentageCalculator() {
 
   let percentOf = '';
   let percentValue = '';
-  let timesOf = '';
+  let timesOfY = '';
+  let timesOfX = '';
   const xNum = parseFloat(x);
   const yNum = parseFloat(y);
   if (!isNaN(xNum) && !isNaN(yNum) && yNum !== 0) {
     percentOf = `${xNum} is ${(xNum / yNum * 100).toFixed(2)}% of ${yNum}`;
     percentValue = `${xNum}% of ${yNum} is ${(xNum / 100 * yNum).toFixed(2)}`;
-    timesOf = `${xNum} is ${(xNum / yNum).toFixed(2)} times of ${yNum}`;
+    timesOfY = `${xNum} is ${(xNum / yNum).toFixed(2)} times of ${yNum}`;
+    timesOfX = `${yNum} is ${(yNum / xNum).toFixed(2)} times of ${xNum}`;
   }
 
   return (
@@ -25,10 +27,11 @@ export default function PercentageCalculator() {
             <input type="number" value={y} onChange={e => setY(e.target.value)} placeholder="Y" className="w-32 px-3 py-2 rounded bg-white/20 border border-white/20 text-white placeholder-purple-200/60 focus:outline-none focus:ring-2 focus:ring-purple-400" />
           </div>
         </div>
-        <div className="flex flex-col gap-2">
-          {percentOf && <div className="text-lg text-teal-300 font-semibold bg-white/10 rounded p-3 text-center">{percentOf}</div>}
-          {percentValue && <div className="text-lg text-purple-300 font-semibold bg-white/10 rounded p-3 text-center">{percentValue}</div>}
-          {timesOf && <div className="text-lg text-yellow-300 font-semibold bg-white/10 rounded p-3 text-center">{timesOf}</div>}
+        <div className="flex flex-col gap-2 text-purple-300 text-lg font-semibold">
+          {percentOf && <div className="bg-white/10 rounded p-3 text-center">{percentOf}</div>}
+          {percentValue && <div className="bg-white/10 rounded p-3 text-center">{percentValue}</div>}
+          {timesOfY && <div className="bg-white/10 rounded p-3 text-center">{timesOfY}</div>}
+          {timesOfY && <div className="bg-white/10 rounded p-3 text-center">{timesOfX}</div>}
         </div>
       </div>
     </div>
