@@ -105,9 +105,32 @@ const TOOL_CATEGORIES = [
   },
 ];
 
+function InstallPage() {
+  return (
+    <div className="w-full max-w-lg mx-auto px-6 py-10">
+      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-2xl flex flex-col items-center">
+        <h2 className="text-2xl font-bold text-purple-200 mb-4">Install Toolkit</h2>
+        <p className="text-purple-100 mb-4 text-center">You can install this app for a better experience. Tap the browser menu and choose <b>"Add to Home Screen"</b> or use the install button if prompted.</p>
+        <img src="/logo.png" alt="Toolkit Logo" className="w-20 h-20 mb-4 rounded-lg shadow" />
+        <ul className="text-purple-200 text-sm mb-4 list-disc list-inside">
+          <li>Works offline after installation</li>
+          <li>Fast, app-like experience</li>
+          <li>Easy access from your home screen</li>
+        </ul>
+        <a href="/" className="px-4 py-2 rounded bg-gradient-to-r from-purple-500 to-teal-500 text-white font-bold shadow hover:from-purple-600 hover:to-teal-600 transition">Back to App</a>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [isStandalone, setIsStandalone] = useState(false);
+
+  useEffect(() => {
+    setIsStandalone(window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true);
+  }, []);
 
   return (
     <Router>
@@ -212,6 +235,7 @@ function App() {
           <div className="flex-1 relative">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/install" element={<InstallPage />} />
               <Route path="/character-count" element={<ToolUsageWrapper path="/character-count"><CharacterCount /></ToolUsageWrapper>} />
               <Route path="/speech-to-text" element={<ToolUsageWrapper path="/speech-to-text"><SpeechToText /></ToolUsageWrapper>} />
               <Route path="/dummy-text" element={<ToolUsageWrapper path="/dummy-text"><DummyTextGenerator /></ToolUsageWrapper>} />
@@ -382,7 +406,7 @@ function HomePage() {
                         type="button"
                       >
                         {isFavorited(tool.path) ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-4 h-4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                         ) : (
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.76 3.64a5.5 5.5 0 017.78 7.78l-7.07 7.07a.75.75 0 01-1.06 0l-7.07-7.07a5.5 5.5 0 017.78-7.78z" /></svg>
                         )}
