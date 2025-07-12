@@ -34,6 +34,7 @@ import AnnualToMonthlyConverter from './components/AnnualToMonthlyConverter';
 import RecurringCostToDailyImpact from './components/RecurringCostToDailyImpact';
 import PercentageCalculator from './components/PercentageCalculator';
 import TimeCounters from './components/TimeCounters';
+import { Toaster } from 'sonner';
 
 const TOOL_CATEGORIES = [
   {
@@ -134,6 +135,7 @@ function App() {
 
   return (
     <Router>
+      <Toaster position="bottom-center" toastOptions={{ className: 'glass-toast' }} />
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800">
         <ParticleField />
         {/* Parallax Fog Layers */}

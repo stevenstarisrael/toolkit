@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { set, get } from 'idb-keyval';
+import { toast } from 'sonner';
 
 interface TimeCounter {
   id: string;
@@ -124,6 +125,10 @@ function formatRelativeTime(target: Date) {
   return str.trim();
 }
 
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 export default function TimeCounters() {
   const [counters, setCounters] = useState<TimeCounter[]>(() => {
     try {
@@ -241,11 +246,19 @@ export default function TimeCounters() {
     return () => clearInterval(interval);
   }, [notifStatus]);
 
+  function showToast(message: string) {
+    toast(message);
+  }
+
   function showNotification(title: string, options: NotificationOptions) {
     if (canNotify() && Notification.permission === 'granted') {
       new Notification(title, options);
     }
-    window.alert(`${title}${options.body ? '\n' + options.body : ''}`);
+    // Only show alert if page is visible and not on mobile
+    if (document.visibilityState === 'visible' && !isMobileDevice()) {
+      window.alert(`${title}${options.body ? '\n' + options.body : ''}`);
+    }
+    // showToast(`${title}${options.body ? ': ' + options.body : ''}`);
   }
 
   function addCounter() {
@@ -446,6 +459,50 @@ export default function TimeCounters() {
         <div className="text-xs text-purple-300 mb-4">
           <b>Note:</b> Background notifications work best when the app is installed as a PWA and in supported browsers (e.g., Chrome, Edge). If your browser does not support background sync, reminders will only work while the app is open.
         </div>
+        {notifStatus !== 'granted' && (
+          <div className="bg-red-900/80 border border-red-400/40 text-red-200 rounded p-3 mb-4 text-sm text-center flex flex-col items-center gap-2">
+            <div>
+              <b>Notifications are not enabled.</b><br />
+              Please enable notifications for this app in your <b>browser settings</b> and, if needed, in your <b>system settings</b> to receive alerts and reminders.
+            </div>
+            <div className="flex gap-3 mt-2">
+              <button
+                className="text-purple-200 underline hover:text-purple-100 transition text-xs font-semibold bg-transparent border-0 p-0 cursor-pointer"
+                onClick={() => {
+                  requestNotificationPermission().then(status => {
+                    setNotifStatus(status as NotificationPermission);
+                    if (status !== 'granted') {
+                      showToast('Please allow notifications in your browser settings.');
+                    }
+                  });
+                }}
+              >
+                Request Browser Permission
+              </button>
+              {isMobileDevice() && (
+                <button
+                  className="text-purple-200 underline hover:text-purple-100 transition text-xs font-semibold bg-transparent border-0 p-0 cursor-pointer"
+                  onClick={() => {
+                    // Try to open system notification settings, or show a toast with instructions
+                    let opened = false;
+                    if (/Android/i.test(navigator.userAgent)) {
+                      window.open('intent://settings#Intent;scheme=android.settings.APP_NOTIFICATION_SETTINGS;end', '_blank');
+                      opened = true;
+                    } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                      showToast('Go to iOS Settings > Notifications > [Your Browser] to enable notifications.');
+                      opened = true;
+                    }
+                    if (!opened) {
+                      showToast('Please enable notifications in your system settings for this browser.');
+                    }
+                  }}
+                >
+                  Open System Notification Settings
+                </button>
+              )}
+            </div>
+          </div>
+        )}
         <div className="flex flex-col gap-3 mb-4">
           <input
             type="text"
