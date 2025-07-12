@@ -125,9 +125,9 @@ function formatRelativeTime(target: Date) {
   return str.trim();
 }
 
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
+// function isMobileDevice() {
+//   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+// }
 
 export default function TimeCounters() {
   const [counters, setCounters] = useState<TimeCounter[]>(() => {
@@ -255,9 +255,9 @@ export default function TimeCounters() {
       new Notification(title, options);
     }
     // Only show alert if page is visible and not on mobile
-    if (document.visibilityState === 'visible' && !isMobileDevice()) {
-      window.alert(`${title}${options.body ? '\n' + options.body : ''}`);
-    }
+    // if (document.visibilityState === 'visible' && !isMobileDevice()) {
+    //   window.alert(`${title}${options.body ? '\n' + options.body : ''}`);
+    // }
     // showToast(`${title}${options.body ? ': ' + options.body : ''}`);
   }
 
@@ -479,7 +479,7 @@ export default function TimeCounters() {
               >
                 Request Browser Permission
               </button>
-              {isMobileDevice() && (
+              {/* {isMobileDevice() && (
                 <button
                   className="text-purple-200 underline hover:text-purple-100 transition text-xs font-semibold bg-transparent border-0 p-0 cursor-pointer"
                   onClick={() => {
@@ -499,7 +499,7 @@ export default function TimeCounters() {
                 >
                   Open System Notification Settings
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         )}
