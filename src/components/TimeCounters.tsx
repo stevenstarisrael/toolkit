@@ -284,15 +284,26 @@ export default function TimeCounters() {
   }
 
   function showNotification(title: string, options: NotificationOptions) {
+    // Try to use service worker for notifications
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      try {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'SHOW_NOTIFICATION',
+          title,
+          options,
+        });
+        return;
+      } catch (e) {
+        // If posting to service worker fails, fallback
+      }
+    }
     if (canNotify() && getNotificationPermission() === 'granted') {
       try {
         new Notification(title, options);
       } catch (e) {
-        // Fallback: show toast if Notification fails
         showToast(`${title}${options.body ? ': ' + options.body : ''}`);
       }
     } else {
-      // Fallback for unsupported browsers/devices
       showToast(`${title}${options.body ? ': ' + options.body : ''}`);
     }
   }

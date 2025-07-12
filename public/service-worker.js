@@ -88,6 +88,12 @@ self.addEventListener('notificationclick', function(event) {
   );
 });
 
+self.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+    self.registration.showNotification(event.data.title, event.data.options);
+  }
+});
+
 self.addEventListener('fetch', event => {
     const { request } = event;
     if (request.method !== 'GET') return;
