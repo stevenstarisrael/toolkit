@@ -50,14 +50,47 @@ function getNextReminderTime(date: Date, repeat: string, customValue: number, cu
   return d;
 }
 
+// Helper to detect iOS devices
+function isIOS() {
+  if (typeof navigator === 'undefined') return false;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && typeof (window as any).MSStream === 'undefined';
+}
+
+// More robust canNotify
 function canNotify() {
-  return 'Notification' in window;
+  try {
+    return (
+      typeof window !== 'undefined' &&
+      'Notification' in window &&
+      typeof Notification.requestPermission === 'function' &&
+      typeof Notification.permission === 'string' &&
+      !isIOS() // Avoid Notification API on iOS
+    );
+  } catch {
+    return false;
+  }
+}
+
+// Defensive access to Notification.permission
+function getNotificationPermission() {
+  if (canNotify()) {
+    try {
+      return Notification.permission;
+    } catch {
+      return 'denied';
+    }
+  }
+  return 'denied';
 }
 
 function requestNotificationPermission() {
   if (!canNotify()) return Promise.resolve('denied');
-  if (Notification.permission === 'granted') return Promise.resolve('granted');
-  return Notification.requestPermission();
+  try {
+    if (Notification.permission === 'granted') return Promise.resolve('granted');
+    return Notification.requestPermission();
+  } catch {
+    return Promise.resolve('denied');
+  }
 }
 
 // Move Reminder interface and helper functions above TimeCounters
@@ -154,7 +187,7 @@ export default function TimeCounters() {
   const [reminderRepeat, setReminderRepeat] = useState('none');
   const [customRepeatValue, setCustomRepeatValue] = useState('');
   const [customRepeatUnit, setCustomRepeatUnit] = useState('minutes');
-  const [notifStatus, setNotifStatus] = useState(Notification.permission);
+  const [notifStatus, setNotifStatus] = useState(getNotificationPermission());
 
   useEffect(() => {
     intervalRef.current = setInterval(() => setNow(Date.now()), 1000);
@@ -180,7 +213,7 @@ export default function TimeCounters() {
   }, [reminders]);
   // On page load, check for due reminders and show notifications for any missed ones
   useEffect(() => {
-    if (!canNotify() || notifStatus !== 'granted') return;
+    if (!canNotify() || getNotificationPermission() !== 'granted') return;
     const now = Date.now();
     setReminders((rs: Reminder[]) => rs.map((rem: Reminder) => {
       const target = new Date(rem.datetime).getTime();
@@ -194,16 +227,16 @@ export default function TimeCounters() {
       }
       return rem;
     }));
-  }, [notifStatus]);
+  }, [getNotificationPermission()]);
 
   // On mount, check notification permission
   useEffect(() => {
-    if (canNotify()) setNotifStatus(Notification.permission);
+    setNotifStatus(getNotificationPermission());
   }, []);
 
   // Real-time check for due reminders every 1 second
   useEffect(() => {
-    if (!canNotify() || notifStatus !== 'granted') return;
+    if (!canNotify() || getNotificationPermission() !== 'granted') return;
     const interval = setInterval(() => {
       setReminders((prevReminders: Reminder[]) => {
         // console.log('All reminders in state:', prevReminders);
@@ -244,21 +277,24 @@ export default function TimeCounters() {
       });
     }, 5000); // 1 second interval
     return () => clearInterval(interval);
-  }, [notifStatus]);
+  }, [getNotificationPermission()]);
 
   function showToast(message: string) {
     toast(message);
   }
 
   function showNotification(title: string, options: NotificationOptions) {
-    if (canNotify() && Notification.permission === 'granted') {
-      new Notification(title, options);
+    if (canNotify() && getNotificationPermission() === 'granted') {
+      try {
+        new Notification(title, options);
+      } catch (e) {
+        // Fallback: show toast if Notification fails
+        showToast(`${title}${options.body ? ': ' + options.body : ''}`);
+      }
+    } else {
+      // Fallback for unsupported browsers/devices
+      showToast(`${title}${options.body ? ': ' + options.body : ''}`);
     }
-    // Only show alert if page is visible and not on mobile
-    // if (document.visibilityState === 'visible' && !isMobileDevice()) {
-    //   window.alert(`${title}${options.body ? '\n' + options.body : ''}`);
-    // }
-    // showToast(`${title}${options.body ? ': ' + options.body : ''}`);
   }
 
   function addCounter() {
@@ -459,7 +495,7 @@ export default function TimeCounters() {
         <div className="text-xs text-purple-300 mb-4">
           <b>Note:</b> Background notifications work best when the app is installed as a PWA and in supported browsers (e.g., Chrome, Edge). If your browser does not support background sync, reminders will only work while the app is open.
         </div>
-        {notifStatus !== 'granted' && (
+        {getNotificationPermission() !== 'granted' && (
           <div className="bg-red-900/80 border border-red-400/40 text-red-200 rounded p-3 mb-4 text-sm text-center flex flex-col items-center gap-2">
             <div>
               <b>Notifications are not enabled.</b><br />
@@ -573,7 +609,7 @@ export default function TimeCounters() {
           >
             Add Reminder
           </button>
-          {notifStatus !== 'granted' && (
+          {getNotificationPermission() !== 'granted' && (
             <div className="text-xs text-red-300 mt-1">Notifications are not enabled. Please allow notifications to receive alerts.</div>
           )}
         </div>
