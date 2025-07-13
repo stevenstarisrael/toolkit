@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import emojiData from '../../public/emoji.json';
 
 export default function EmojiFinder() {
   const [search, setSearch] = useState('');
@@ -7,13 +8,8 @@ export default function EmojiFinder() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    import('../emoji.json')
-      .then(mod => {
-        setEmojis(mod.default || mod);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    setEmojis(emojiData);
+    setLoading(false);
   }, []);
 
   const filtered = useMemo(() => {
@@ -50,7 +46,7 @@ export default function EmojiFinder() {
         {loading ? (
           <div className="text-center text-purple-200 text-xl py-16">Loading emojis…</div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 max-h-[70vh] overflow-y-auto" style={{overflowX: 'hidden'}}>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 max-h-[70vh] overflow-y-auto" style={{ overflowX: 'hidden' }}>
             {filtered.length === 0 ? (
               <div className="col-span-full text-center text-purple-200 text-xl py-16">No emojis found.</div>
             ) : (

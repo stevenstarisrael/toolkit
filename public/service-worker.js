@@ -6,6 +6,7 @@ const toCache = [
     '/index.html',
     '/manifest.json',
     '/logo.png',
+    '/emoji.json',
     // Add more static assets if needed
 ];
 
